@@ -14,7 +14,7 @@ def extract_data():
     from yesterday
     """
     # Get Credentials
-    with open('C:/Users/Josh Ellis/Documents/programming/projects/wagner-group-data-collection/config.yaml', 'r') as f:
+    with open('C:/Users/Josh Ellis/Documents/programming/projects/wagner_group_data_collection/config.yaml', 'r') as f:
         credentials = yaml.safe_load(f)
 
     # Start a Reddit API Session

@@ -2,7 +2,7 @@ import psycopg2
 import yaml
 
 def db_connect():
-    with open('C:/Users/Josh Ellis/Documents/programming/projects/wagner-group-data-collection/config.yaml', 'r') as f:
+    with open('C:/Users/Josh Ellis/Documents/programming/projects/wagner_group_data_collection/config.yaml', 'r') as f:
         credentials = yaml.safe_load(f)
         
     port_id = credentials['PostgresCredentials']['PORT']
