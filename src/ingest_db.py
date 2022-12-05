@@ -1,11 +1,10 @@
 from datetime import datetime, timedelta
 import yaml
-import spacy
-import re
 
 # Imports from custom modules
 from reddit import MyRedditAPI
 from database.connection import db_connect
+from utils import get_locations
 
 
 def extract_data():
@@ -35,25 +34,6 @@ def extract_data():
     # Filter query results for yesterday
     yesterday_utc = datetime.utcnow().date() - timedelta(days=1)
     df = df[df['created_utc'].dt.date == yesterday_utc]
-    
-    return df
-
-
-def get_locations(df):
-    """
-    Extracts Location Data from post Title
-    """
-    nlp = spacy.load('en_core_web_sm')
-
-    titles = df['title']
-
-    locations = []
-    for title in titles:
-        doc = nlp(str(title))
-        locations.append(doc.ents)
-            
-    df['locations'] = [re.sub("[\()]", '', str(i)) for i in locations]
-    df['locations'] = df['locations'].str.rstrip(',')
     
     return df
 
