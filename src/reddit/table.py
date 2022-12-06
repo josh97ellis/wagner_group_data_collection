@@ -28,8 +28,8 @@ def response_table(res):
             'subreddit': post['data']['subreddit'],
             'title': post['data']['title'],
             'selftext': post['data']['selftext'],
-            'url': post['data']['url'],
-            'media': post['data']['media'],
+            'media_url': post['data']['url'],
+            'post_url': f"https://www.reddit.com{post['data']['permalink']}"
         }, index=[0])
         
         df = pd.concat((df, post_df))
