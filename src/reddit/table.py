@@ -11,7 +11,7 @@ def response_table(res):
     Table structure for reddit api resonse
     Fields:
         {name, created_utc, author, subreddit,
-        title, selftext, url, media}
+        title, selftext, media_url, and post_url}
     """
     # initialize dataframe for pulling data in loop
     df = pd.DataFrame()

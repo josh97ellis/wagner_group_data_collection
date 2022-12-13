@@ -7,9 +7,7 @@ from .table import response_table
 class MyRedditAPI:
     """
     This class provides a level of abstraction from the Reddit API,
-    providing an easy way to pull data from the API.
-    
-    Instances of this class are the gateway to interacting with Reddit's API
+    providing an easy way to query data from reddit posts
     """
     def __init__(
         self, 
@@ -25,14 +23,15 @@ class MyRedditAPI:
         self.password = password
         self.user_agent = user_agent
 
-    def __call__(self):
-        """
-        Provides authorization to Reddit API. Automatically called
-        in all methods of the class
-        """
-        authorize = RedditAuth(self.client_id, self.secret_key,
-                               self.username, self.password, self.user_agent)
-        return authorize.start_session()
+        self.session = (
+            RedditAuth(
+                self.client_id,
+                self.secret_key,
+                self.username,
+                self.password,
+                self.user_agent
+            ).start_session()
+        )
 
     def search_posts(
         self,
@@ -68,8 +67,8 @@ class MyRedditAPI:
             'q': query,
             'sort': sort,
             'before': before,
-            'after': after
-            }
+            'after': after,
+        }
         
         # Reddit API only allows for UP TO 100 posts from a single API request
         # Therefore, the limit arg is broken up into 100 limit chunks up until
@@ -82,25 +81,28 @@ class MyRedditAPI:
 
         # Run a API Search Query for each each element in the iteration list
         # The iteration_list provides the limit parameter
-        for iter_limit in iteration_list:
-            search_params['limit'] = iter_limit
+        try:
+            for iter_limit in iteration_list:
+                search_params['limit'] = iter_limit
 
-            # Make API Request
-            res = requests.get(
-                url=(f'https://oauth.reddit.com/r/{subreddit}/search'),
-                headers=self.__call__(),
-                params = search_params
-            )
+                # Make API Request
+                res = requests.get(
+                    url=(f'https://oauth.reddit.com/r/{subreddit}/search?restrict_sr=1'),
+                    headers=self.session,
+                    params = search_params
+                )
 
-            # uses the function in from table module that defines the output
-            df_new = response_table(res)
+                # uses the function in from table module that defines the output
+                df_new = response_table(res)
 
-            # take the final row (oldest entry)   
-            row = df_new.iloc[len(df_new)-1] 
-            # add/update fullname in params
-            search_params['after'] = row['name']
-            # append new_df to data
-            data = pd.concat((data, df_new))
+                # take the final row (oldest entry)   
+                row = df_new.iloc[len(df_new)-1] 
+                # add/update fullname in params
+                search_params['after'] = row['name']
+                # append new_df to data
+                data = pd.concat((data, df_new))
+        except:
+            pass
         
         data.sort_values(by='created_utc', ascending=False, inplace=True)
             

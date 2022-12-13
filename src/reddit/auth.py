@@ -2,8 +2,22 @@ import requests
 
 class RedditAuth():
     """
-    Provide the Authentication to reddit and starts
-    and API session
+    Authenticate Reddit API Sign-in Credentials  
+    
+    To generate a client_id and a secret_key, develope an application on reddit: https://www.reddit.com/prefs/apps
+    
+    PARAMS:
+    --------
+        - client_id: str
+            - ID provided when creating the Reddit app
+        - secret_key: str
+            - Secret provided when creating the reddit app
+        - username: str
+            - Your personal Reddit Username
+        - password: str
+            - Your personal Reddit Password
+        - user_agent: str
+            - Value can be any string, i.e., "Reddit-API-Test"
     """
     def __init__(self, client_id, secret_key, username, password, user_agent):
         self.client_id = client_id
@@ -13,7 +27,9 @@ class RedditAuth():
         self.user_agent = user_agent
         
     def start_session(self):
-        # authenticate API
+        """
+        Generates the OAUTH and Access Tokens to use the API
+        """
         auth = requests.auth.HTTPBasicAuth(self.client_id, self.secret_key)
         login_info = {
             'grant_type': 'password',
