@@ -1,21 +1,17 @@
 import psycopg2
-import yaml
+import os
 
 def db_connect():
-    with open('C:/Users/Josh Ellis/Documents/programming/projects/wagner_group_data_collection/config.yaml', 'r') as f:
-        credentials = yaml.safe_load(f)
-        
-    port_id = credentials['PostgresCredentials']['PORT']
-
     connection = None
     cursor = None
+    
     try:
         connection = psycopg2.connect(
-            host=credentials['PostgresCredentials']['DB_HOST'],
-            database=credentials['PostgresCredentials']['DB_NAME'],
-            user=credentials['PostgresCredentials']['DB_USER'],
-            password=credentials['PostgresCredentials']['DB_PASS'],
-            port=port_id
+            host=os.getenv('localhost'),
+            database=os.getenv('DB_NAME'),
+            user=os.getenv('DB_USER'),
+            password=os.getenv('DB_PASS'),
+            port=5432
         )
         cursor = connection.cursor()
     except Exception as error:
