@@ -1,7 +1,6 @@
 from datetime import datetime, timedelta
 from dotenv import dotenv_values
 
-# Imports from custom modules
 from reddit import MyRedditAPI
 from database import db_connect
 from processing import (
