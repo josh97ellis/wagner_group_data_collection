@@ -6,8 +6,10 @@ CREATE TABLE public.reddit_mentions
     subreddit TEXT NOT NULL,
     title TEXT NOT NULL,
     body TEXT,
-    url TEXT,
-    media TEXT,
+    media_url TEXT,
+    post_url TEXT,
     locations TEXT,
+    organizations TEXT,
+    people TEXT,
 	PRIMARY KEY (post_id)	
 )
