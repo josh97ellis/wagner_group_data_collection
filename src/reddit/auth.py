@@ -4,7 +4,7 @@ class RedditAuth():
     """
     Authenticate Reddit API Sign-in Credentials  
     
-    To generate a client_id and a secret_key, develope an application on reddit: https://www.reddit.com/prefs/apps
+    To generate a client_id and a secret_key, develop an application on reddit: https://www.reddit.com/prefs/apps
     
     PARAMS:
     --------
