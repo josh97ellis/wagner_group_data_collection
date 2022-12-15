@@ -38,7 +38,7 @@ def extract_data():
         sort='new')
     
     # Filter query results for yesterday
-    yesterday_utc = datetime.utcnow().date() - timedelta(days=7)
+    yesterday_utc = datetime.utcnow().date() - timedelta(days=1)
     df = df[df['created_utc'].dt.date == yesterday_utc]
     
     return df
